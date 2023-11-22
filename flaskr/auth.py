@@ -5,13 +5,16 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
+#DEBUG
+from flask import current_app
+
 from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=['GET','POST'])
 def register():
-    if request.method is 'POST':
+    if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         db = get_db()
@@ -22,6 +25,9 @@ def register():
         elif not password:
             error = 'Password is required.'
         
+        #DEBUG
+        current_app.logger.debug(f'{username} e {password}')
+
         if error is None:
             try:
                 db.execute(
@@ -73,3 +79,18 @@ def load_logged_in_user():
         g.user = get_db().execute(
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
+
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        
+        return view(**kwargs)
+    
+    return wrapped_view
