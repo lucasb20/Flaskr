@@ -7,9 +7,7 @@ Um aplicativo de Blog feito em Flask.
 * Há um sistema de autenticação no site, e, se você se logar, consegue acessar os posts criados, estando disponível operações de CRUD (ou pelo menos a maioria delas).
 
 * Instruções para instalação:
-    - Tenha Python instalado.
-
-    - Instale as dependências com o comando "pip install flaskr-1.0.0-py3-none-any.whl".
+    - Tenha Python e Flask instalado.
 
     - Execute "flask --app flaskr init-db" para criar a instância do banco de dados.
  
@@ -17,3 +15,5 @@ Um aplicativo de Blog feito em Flask.
 
 * Ideias a considerar:
         - Finalizar o CRUD, talvez.
+
+        - Trocar a Engine, só para deixar o projeto mais complexo.
